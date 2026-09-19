@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HealthMap from "./HealthMap";
 import ReportPage from "./ReportPage";
 
@@ -67,7 +67,7 @@ function App() {
   return (
     <div className="app-layout">
 
-      {/* ================= SIDEBAR ================= */}
+      {/* SIDEBAR */}
 
       <aside className="sidebar">
 
@@ -92,6 +92,7 @@ function App() {
           </p>
 
           {navItems.map((item) => (
+
             <button
               key={item.id}
               className={`nav-item ${
@@ -107,6 +108,7 @@ function App() {
               {item.label}
 
             </button>
+
           ))}
 
         </div>
@@ -119,6 +121,7 @@ function App() {
             <span className="status-dot"></span>
 
             <div>
+
               <strong>
                 System Online
               </strong>
@@ -126,6 +129,7 @@ function App() {
               <small>
                 Monitoring active
               </small>
+
             </div>
 
           </div>
@@ -138,6 +142,7 @@ function App() {
             </div>
 
             <div>
+
               <strong>
                 Authority
               </strong>
@@ -145,6 +150,7 @@ function App() {
               <small>
                 Health Officer
               </small>
+
             </div>
 
           </div>
@@ -154,7 +160,7 @@ function App() {
       </aside>
 
 
-      {/* ================= MAIN ================= */}
+      {/* MAIN */}
 
       <main className="main-content">
 
@@ -206,10 +212,10 @@ function App() {
         </header>
 
 
-        {/* ================= PAGE CONTENT ================= */}
-
         {activePage === "dashboard" && (
-          <Dashboard />
+          <Dashboard
+            setActivePage={setActivePage}
+          />
         )}
 
 
@@ -264,6 +270,7 @@ function getPageTitle(page) {
 
     default:
       return "Community Health Overview";
+
   }
 }
 
@@ -272,13 +279,11 @@ function getPageTitle(page) {
    DASHBOARD
 ========================================================= */
 
-function Dashboard() {
+function Dashboard({ setActivePage }) {
 
   return (
 
     <div className="dashboard">
-
-      {/* ================= STAT CARDS ================= */}
 
       <section className="stats-grid">
 
@@ -321,11 +326,7 @@ function Dashboard() {
       </section>
 
 
-      {/* ================= MAP + AI ================= */}
-
       <section className="content-grid">
-
-        {/* MAP */}
 
         <div className="panel map-panel">
 
@@ -356,7 +357,6 @@ function Dashboard() {
           <div className="fake-map">
 
             <div className="map-grid"></div>
-
 
             <div className="map-label label-one">
               Kavoor
@@ -425,8 +425,6 @@ function Dashboard() {
         </div>
 
 
-        {/* AI INSIGHT */}
-
         <div className="panel insight-panel">
 
           <div className="panel-header">
@@ -463,9 +461,9 @@ function Dashboard() {
               </strong>
 
               <p>
-                A cluster of fever-related reports
-                in the Kavoor area is above the
-                recent baseline.
+                A cluster of health reports
+                in the Kavoor area is above
+                the recent baseline.
               </p>
 
             </div>
@@ -487,14 +485,12 @@ function Dashboard() {
 
             </div>
 
-
             <div className="progress">
               <div></div>
             </div>
 
-
             <small>
-              Pattern confidence: 87%
+              Pattern detection active
             </small>
 
           </div>
@@ -512,11 +508,7 @@ function Dashboard() {
       </section>
 
 
-      {/* ================= REPORTS + ALERTS ================= */}
-
       <section className="bottom-grid">
-
-        {/* RECENT REPORTS */}
 
         <div className="panel">
 
@@ -560,7 +552,6 @@ function Dashboard() {
                   >
                     ●
                   </div>
-
 
                   <div>
 
@@ -610,8 +601,6 @@ function Dashboard() {
         </div>
 
 
-        {/* ALERTS */}
-
         <div className="panel">
 
           <div className="panel-header">
@@ -638,7 +627,7 @@ function Dashboard() {
           <div className="alert-list">
 
             <Alert
-              title="Fever cluster"
+              title="Health report cluster"
               location="Kavoor"
               time="18 min ago"
               level="High"
@@ -726,7 +715,7 @@ function StatCard({
 
 
 /* =========================================================
-   ALERT COMPONENT
+   ALERT
 ========================================================= */
 
 function Alert({
@@ -778,29 +767,581 @@ function Alert({
 
 function AIAnalysisPage() {
 
-  return (
+  const [analysis, setAnalysis] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-    <div className="placeholder-page">
 
-      <div className="placeholder-icon">
-        ✦
+  const fetchAnalysis = async () => {
+
+    try {
+
+      setLoading(true);
+      setError("");
+
+      const response = await fetch(
+        "http://127.0.0.1:8000/analysis/clusters"
+      );
+
+      if (!response.ok) {
+
+        throw new Error(
+          "Failed to fetch AI analysis"
+        );
+
+      }
+
+      const data = await response.json();
+
+      setAnalysis(data);
+
+    } catch (err) {
+
+      console.error(
+        "AI analysis error:",
+        err
+      );
+
+      setError(
+        "Unable to connect to the HealthMap AI engine."
+      );
+
+    } finally {
+
+      setLoading(false);
+
+    }
+
+  };
+
+
+  useEffect(() => {
+
+    fetchAnalysis();
+
+  }, []);
+
+
+  if (loading) {
+
+    return (
+
+      <div className="placeholder-page">
+
+        <div className="placeholder-icon">
+          ✦
+        </div>
+
+        <h3>
+          AI Analysis
+        </h3>
+
+        <p>
+          Analyzing community health reports...
+        </p>
+
       </div>
 
-      <h3>
-        AI Analysis
-      </h3>
+    );
 
-      <p>
-        Pattern detection and investigation reasoning.
-      </p>
+  }
 
-      <div className="coming-soon">
-        AI Analysis module will be built next.
+
+  if (error) {
+
+    return (
+
+      <div className="placeholder-page">
+
+        <div className="placeholder-icon">
+          ⚠
+        </div>
+
+        <h3>
+          AI Analysis
+        </h3>
+
+        <p>
+          {error}
+        </p>
+
+        <button
+          className="analysis-button"
+          onClick={fetchAnalysis}
+        >
+          Try Again →
+        </button>
+
+      </div>
+
+    );
+
+  }
+
+
+  const clusters =
+    analysis?.clusters || [];
+
+  const totalReports =
+    analysis?.total_reports || 0;
+
+  const totalPeople =
+    analysis?.total_people_affected || 0;
+
+
+  return (
+
+    <div className="analysis-page">
+
+      {/* HEADER */}
+
+      <div className="analysis-header">
+
+        <div>
+
+          <p className="breadcrumb">
+            HEALTH INTELLIGENCE / AI ANALYSIS
+          </p>
+
+          <h3>
+            Community Health Pattern Analysis
+          </h3>
+
+          <p>
+            AI-powered detection of unusual
+            geographic patterns in community
+            health reports.
+          </p>
+
+        </div>
+
+
+        <button
+          className="view-button"
+          onClick={fetchAnalysis}
+        >
+          ↻ Refresh Analysis
+        </button>
+
+      </div>
+
+
+      {/* SUMMARY */}
+
+      <div className="stats-grid">
+
+        <StatCard
+          title="Reports Analyzed"
+          value={totalReports}
+          change="LIVE"
+          description="community reports"
+          icon="▤"
+          type="blue"
+        />
+
+
+        <StatCard
+          title="Clusters Detected"
+          value={clusters.length}
+          change="AI"
+          description="geographic patterns"
+          icon="⌖"
+          type="purple"
+        />
+
+
+        <StatCard
+          title="People Affected"
+          value={totalPeople}
+          change="TOTAL"
+          description="reported across areas"
+          icon="●"
+          type="orange"
+        />
+
+
+        <StatCard
+          title="Engine Status"
+          value="Active"
+          change="LIVE"
+          description="pattern detection running"
+          icon="✓"
+          type="green"
+        />
+
+      </div>
+
+
+      {/* DETECTED CLUSTERS */}
+
+      <div className="panel">
+
+        <div className="panel-header">
+
+          <div>
+
+            <h3>
+              Detected Health Clusters
+            </h3>
+
+            <p>
+              Geographic groups identified from
+              community health reports.
+            </p>
+
+          </div>
+
+
+          <span className="ai-badge">
+            ✦ AI DETECTED
+          </span>
+
+        </div>
+
+
+        {clusters.length === 0 ? (
+
+          <div className="coming-soon">
+
+            <div className="placeholder-icon">
+              ✓
+            </div>
+
+            <strong>
+              No geographic clusters detected
+            </strong>
+
+            <p>
+              The current reports do not contain
+              enough nearby reports to form a cluster.
+            </p>
+
+          </div>
+
+        ) : (
+
+          <div className="cluster-cards">
+
+            {clusters.map((cluster) => (
+
+              <div
+                className="cluster-card"
+                key={cluster.cluster_id}
+              >
+
+                <div className="cluster-card-header">
+
+                  <div>
+
+                    <span className="cluster-label">
+                      CLUSTER #{cluster.cluster_id}
+                    </span>
+
+                    <h3>
+                      Geographic Health Pattern
+                    </h3>
+
+                  </div>
+
+
+                  <div className="priority-badge">
+                    INVESTIGATE
+                  </div>
+
+                </div>
+
+
+                <div className="cluster-stats">
+
+                  <div>
+
+                    <span>
+                      Reports
+                    </span>
+
+                    <strong>
+                      {cluster.report_count}
+                    </strong>
+
+                  </div>
+
+
+                  <div>
+
+                    <span>
+                      People Affected
+                    </span>
+
+                    <strong>
+                      {cluster.people_affected}
+                    </strong>
+
+                  </div>
+
+
+                  <div>
+
+                    <span>
+                      Latitude
+                    </span>
+
+                    <strong>
+                      {Number(
+                        cluster.latitude
+                      ).toFixed(4)}
+                    </strong>
+
+                  </div>
+
+
+                  <div>
+
+                    <span>
+                      Longitude
+                    </span>
+
+                    <strong>
+                      {Number(
+                        cluster.longitude
+                      ).toFixed(4)}
+                    </strong>
+
+                  </div>
+
+                </div>
+
+
+                <div className="priority-section">
+
+                  <div className="priority-heading">
+
+                    <span>
+                      Investigation Signal
+                    </span>
+
+                    <strong>
+                      CLUSTER DETECTED
+                    </strong>
+
+                  </div>
+
+
+                  <div className="priority-bar">
+
+                    <div className="priority-fill"></div>
+
+                  </div>
+
+
+                  <small>
+                    Multiple reports are geographically
+                    concentrated in the same area.
+                  </small>
+
+                </div>
+
+
+                <div className="why-flagged">
+
+                  <div className="why-icon">
+                    !
+                  </div>
+
+
+                  <div>
+
+                    <strong>
+                      Why was this flagged?
+                    </strong>
+
+                    <p>
+
+                      HealthMap detected{" "}
+
+                      <b>
+                        {cluster.report_count}
+                      </b>{" "}
+
+                      reports within the configured
+                      geographic analysis radius.
+
+                      These reports collectively
+                      represent{" "}
+
+                      <b>
+                        {cluster.people_affected}
+                      </b>{" "}
+
+                      people affected.
+
+                    </p>
+
+                  </div>
+
+                </div>
+
+
+                <div className="analysis-disclaimer">
+
+                  <span>
+                    ℹ
+                  </span>
+
+                  <p>
+                    This is an investigation signal,
+                    not a disease diagnosis or confirmed
+                    outbreak.
+                  </p>
+
+                </div>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        )}
+
+      </div>
+
+
+      {/* HOW AI WORKS */}
+
+      <div className="panel">
+
+        <div className="panel-header">
+
+          <div>
+
+            <h3>
+              How HealthMap Detects Patterns
+            </h3>
+
+            <p>
+              The analysis pipeline used to identify
+              geographic health signals.
+            </p>
+
+          </div>
+
+          <span className="ai-badge">
+            AI ENGINE
+          </span>
+
+        </div>
+
+
+        <div className="ai-pipeline">
+
+          <div className="pipeline-step">
+
+            <div className="pipeline-number">
+              1
+            </div>
+
+            <strong>
+              Collect
+            </strong>
+
+            <span>
+              Community health reports
+            </span>
+
+          </div>
+
+
+          <div className="pipeline-arrow">
+            →
+          </div>
+
+
+          <div className="pipeline-step">
+
+            <div className="pipeline-number">
+              2
+            </div>
+
+            <strong>
+              Locate
+            </strong>
+
+            <span>
+              Geographic coordinates
+            </span>
+
+          </div>
+
+
+          <div className="pipeline-arrow">
+            →
+          </div>
+
+
+          <div className="pipeline-step">
+
+            <div className="pipeline-number">
+              3
+            </div>
+
+            <strong>
+              Cluster
+            </strong>
+
+            <span>
+              Nearby reports
+            </span>
+
+          </div>
+
+
+          <div className="pipeline-arrow">
+            →
+          </div>
+
+
+          <div className="pipeline-step">
+
+            <div className="pipeline-number">
+              4
+            </div>
+
+            <strong>
+              Investigate
+            </strong>
+
+            <span>
+              Identify priority areas
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      {/* FOOTER */}
+
+      <div className="analysis-footer">
+
+        <span>
+          ✦
+        </span>
+
+        <p>
+          HealthMap supports early investigation
+          by identifying unusual geographic patterns.
+          It does not diagnose diseases or confirm
+          outbreaks.
+        </p>
+
       </div>
 
     </div>
 
   );
+
 }
 
 
@@ -833,6 +1374,7 @@ function AlertsPage() {
     </div>
 
   );
+
 }
 
 

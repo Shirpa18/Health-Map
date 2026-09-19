@@ -2115,3 +2115,344 @@ textarea:focus-visible {
     gap: 12px;
   }
 }
+/* =========================================================
+   HEALTHMAP AI ANALYSIS
+========================================================= */
+
+.analysis-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.analysis-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.analysis-header h3 {
+  margin: 6px 0;
+  font-size: 28px;
+}
+
+.analysis-header p:not(.breadcrumb) {
+  margin: 0;
+  color: #64748b;
+}
+
+
+/* =========================================================
+   CLUSTER CARDS
+========================================================= */
+
+.cluster-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cluster-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 22px;
+  background: #ffffff;
+}
+
+.cluster-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.cluster-label {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #7c3aed;
+  margin-bottom: 6px;
+}
+
+.cluster-card-header h3 {
+  margin: 0;
+  font-size: 19px;
+}
+
+.priority-badge {
+  padding: 7px 12px;
+  border-radius: 20px;
+  background: #fff7ed;
+  color: #c2410c;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+
+/* =========================================================
+   CLUSTER STATISTICS
+========================================================= */
+
+.cluster-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  padding: 20px 0;
+}
+
+.cluster-stats > div {
+  padding: 15px;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.cluster-stats span {
+  display: block;
+  color: #64748b;
+  font-size: 12px;
+  margin-bottom: 7px;
+}
+
+.cluster-stats strong {
+  display: block;
+  font-size: 21px;
+  color: #0f172a;
+}
+
+
+/* =========================================================
+   INVESTIGATION SIGNAL
+========================================================= */
+
+.priority-section {
+  padding: 18px 0;
+}
+
+.priority-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 9px;
+}
+
+.priority-heading span {
+  font-size: 13px;
+  color: #475569;
+}
+
+.priority-heading strong {
+  color: #dc2626;
+  font-size: 13px;
+}
+
+.priority-bar {
+  height: 9px;
+  width: 100%;
+  background: #e2e8f0;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.priority-fill {
+  height: 100%;
+  width: 82%;
+  background: #ef4444;
+  border-radius: 20px;
+}
+
+.priority-section small {
+  display: block;
+  margin-top: 8px;
+  color: #64748b;
+}
+
+
+/* =========================================================
+   WHY FLAGGED
+========================================================= */
+
+.why-flagged {
+  display: flex;
+  gap: 14px;
+  padding: 18px;
+  background: #f5f3ff;
+  border: 1px solid #ddd6fe;
+  border-radius: 13px;
+}
+
+.why-icon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #7c3aed;
+  color: white;
+  font-weight: 800;
+}
+
+.why-flagged strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #4c1d95;
+}
+
+.why-flagged p {
+  margin: 0;
+  line-height: 1.6;
+  color: #475569;
+}
+
+
+/* =========================================================
+   DISCLAIMER
+========================================================= */
+
+.analysis-disclaimer {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.analysis-disclaimer span {
+  font-weight: 700;
+  color: #64748b;
+}
+
+.analysis-disclaimer p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #64748b;
+}
+
+
+/* =========================================================
+   AI PIPELINE
+========================================================= */
+
+.ai-pipeline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.pipeline-step {
+  flex: 1;
+  min-height: 130px;
+  padding: 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 13px;
+  background: #f8fafc;
+}
+
+.pipeline-number {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  border-radius: 50%;
+  background: #ede9fe;
+  color: #6d28d9;
+  font-weight: 800;
+}
+
+.pipeline-step strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.pipeline-step span {
+  display: block;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #64748b;
+}
+
+.pipeline-arrow {
+  font-size: 20px;
+  color: #94a3b8;
+}
+
+
+/* =========================================================
+   ANALYSIS FOOTER
+========================================================= */
+
+.analysis-footer {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 15px 18px;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.analysis-footer span {
+  color: #7c3aed;
+  font-weight: 800;
+}
+
+.analysis-footer p {
+  margin: 0;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .cluster-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ai-pipeline {
+    flex-direction: column;
+  }
+
+  .pipeline-step {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .pipeline-arrow {
+    transform: rotate(90deg);
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .analysis-header {
+    flex-direction: column;
+  }
+
+  .cluster-card-header {
+    flex-direction: column;
+  }
+
+  .cluster-stats {
+    grid-template-columns: 1fr;
+  }
+
+}
