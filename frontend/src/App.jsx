@@ -1,11 +1,33 @@
 import { useState } from "react";
+import HealthMap from "./HealthMap";
+import ReportPage from "./ReportPage";
 
 const navItems = [
-  { id: "dashboard", label: "Dashboard", icon: "▦" },
-  { id: "map", label: "Live Health Map", icon: "⌖" },
-  { id: "reports", label: "Health Reports", icon: "▤" },
-  { id: "analysis", label: "AI Analysis", icon: "✦" },
-  { id: "alerts", label: "Alerts", icon: "⚠" },
+  {
+    id: "dashboard",
+    label: "Dashboard",
+    icon: "▦",
+  },
+  {
+    id: "map",
+    label: "Live Health Map",
+    icon: "⌖",
+  },
+  {
+    id: "reports",
+    label: "Health Reports",
+    icon: "▤",
+  },
+  {
+    id: "analysis",
+    label: "AI Analysis",
+    icon: "✦",
+  },
+  {
+    id: "alerts",
+    label: "Alerts",
+    icon: "⚠",
+  },
 ];
 
 const reports = [
@@ -44,18 +66,30 @@ function App() {
 
   return (
     <div className="app-layout">
-      {/* Sidebar */}
+
+      {/* ================= SIDEBAR ================= */}
+
       <aside className="sidebar">
+
         <div className="brand">
-          <div className="brand-icon">H</div>
+
+          <div className="brand-icon">
+            H
+          </div>
+
           <div>
             <h1>HealthMap</h1>
             <span>Health Intelligence</span>
           </div>
+
         </div>
 
+
         <div className="sidebar-section">
-          <p className="section-title">MAIN MENU</p>
+
+          <p className="section-title">
+            MAIN MENU
+          </p>
 
           {navItems.map((item) => (
             <button
@@ -65,103 +99,189 @@ function App() {
               }`}
               onClick={() => setActivePage(item.id)}
             >
-              <span className="nav-icon">{item.icon}</span>
+
+              <span className="nav-icon">
+                {item.icon}
+              </span>
+
               {item.label}
+
             </button>
           ))}
+
         </div>
+
 
         <div className="sidebar-bottom">
+
           <div className="system-status">
+
             <span className="status-dot"></span>
+
             <div>
-              <strong>System Online</strong>
-              <small>Monitoring active</small>
+              <strong>
+                System Online
+              </strong>
+
+              <small>
+                Monitoring active
+              </small>
             </div>
+
           </div>
+
 
           <div className="user-card">
-            <div className="avatar">A</div>
-            <div>
-              <strong>Authority</strong>
-              <small>Health Officer</small>
+
+            <div className="avatar">
+              A
             </div>
+
+            <div>
+              <strong>
+                Authority
+              </strong>
+
+              <small>
+                Health Officer
+              </small>
+            </div>
+
           </div>
+
         </div>
+
       </aside>
 
-      {/* Main Content */}
+
+      {/* ================= MAIN ================= */}
+
       <main className="main-content">
+
         <header className="topbar">
+
           <div>
-            <p className="breadcrumb">HEALTH INTELLIGENCE / OVERVIEW</p>
+
+            <p className="breadcrumb">
+              HEALTH INTELLIGENCE / OVERVIEW
+            </p>
+
             <h2>
-              {activePage === "dashboard"
-                ? "Community Health Overview"
-                : navItems.find((item) => item.id === activePage)?.label}
+              {getPageTitle(activePage)}
             </h2>
+
           </div>
+
 
           <div className="topbar-actions">
+
             <div className="live-indicator">
+
               <span></span>
+
               LIVE
+
             </div>
 
-            <button className="notification-btn">♢</button>
+
+            <button className="notification-btn">
+              ♢
+            </button>
+
 
             <div className="date-box">
-              <span>Today</span>
-              <strong>19 Sep 2026</strong>
+
+              <span>
+                Today
+              </span>
+
+              <strong>
+                19 Sep 2026
+              </strong>
+
             </div>
+
           </div>
+
         </header>
+
+
+        {/* ================= PAGE CONTENT ================= */}
 
         {activePage === "dashboard" && (
           <Dashboard />
         )}
 
+
         {activePage === "map" && (
-          <PlaceholderPage
-            title="Live Health Map"
-            description="Geographic visualization of community health reports and emerging clusters."
-            icon="⌖"
-          />
+          <HealthMap />
         )}
+
 
         {activePage === "reports" && (
-          <PlaceholderPage
-            title="Health Reports"
-            description="Review and monitor incoming community health reports."
-            icon="▤"
-          />
+          <ReportPage />
         )}
+
 
         {activePage === "analysis" && (
-          <PlaceholderPage
-            title="AI Analysis"
-            description="Understand detected patterns and why HealthMap flagged them."
-            icon="✦"
-          />
+          <AIAnalysisPage />
         )}
 
+
         {activePage === "alerts" && (
-          <PlaceholderPage
-            title="Alerts"
-            description="Monitor investigation priorities and public-health alerts."
-            icon="⚠"
-          />
+          <AlertsPage />
         )}
+
       </main>
+
     </div>
   );
 }
 
+
+/* =========================================================
+   PAGE TITLE
+========================================================= */
+
+function getPageTitle(page) {
+
+  switch (page) {
+
+    case "dashboard":
+      return "Community Health Overview";
+
+    case "map":
+      return "Live Health Map";
+
+    case "reports":
+      return "Health Reports";
+
+    case "analysis":
+      return "AI Analysis";
+
+    case "alerts":
+      return "Alerts";
+
+    default:
+      return "Community Health Overview";
+  }
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
 function Dashboard() {
+
   return (
+
     <div className="dashboard">
-      {/* Stats */}
+
+      {/* ================= STAT CARDS ================= */}
+
       <section className="stats-grid">
+
         <StatCard
           title="Reports Today"
           value="47"
@@ -197,135 +317,278 @@ function Dashboard() {
           icon="✓"
           type="green"
         />
+
       </section>
 
-      {/* Main Grid */}
+
+      {/* ================= MAP + AI ================= */}
+
       <section className="content-grid">
-        {/* Map Preview */}
+
+        {/* MAP */}
+
         <div className="panel map-panel">
+
           <div className="panel-header">
+
             <div>
-              <h3>Live Health Map</h3>
-              <p>Community reports across the monitored region</p>
+
+              <h3>
+                Live Health Map
+              </h3>
+
+              <p>
+                Community reports across the monitored region
+              </p>
+
             </div>
 
-            <button className="view-button">Open Map →</button>
+            <button
+              className="view-button"
+              onClick={() => setActivePage("map")}
+            >
+              Open Map →
+            </button>
+
           </div>
 
+
           <div className="fake-map">
+
             <div className="map-grid"></div>
 
-            <div className="map-label label-one">Kavoor</div>
-            <div className="map-label label-two">Kadri</div>
-            <div className="map-label label-three">Bejai</div>
-            <div className="map-label label-four">Kottara</div>
+
+            <div className="map-label label-one">
+              Kavoor
+            </div>
+
+            <div className="map-label label-two">
+              Kadri
+            </div>
+
+            <div className="map-label label-three">
+              Bejai
+            </div>
+
+            <div className="map-label label-four">
+              Kottara
+            </div>
+
 
             <div className="cluster cluster-large">
-              <span>12</span>
+              <span>
+                12
+              </span>
             </div>
+
 
             <div className="cluster cluster-medium">
-              <span>7</span>
+              <span>
+                7
+              </span>
             </div>
 
+
             <div className="cluster cluster-small">
-              <span>5</span>
+              <span>
+                5
+              </span>
             </div>
+
 
             <div className="map-center">
               <span></span>
             </div>
 
+
             <div className="map-legend">
+
               <div>
                 <span className="legend-dot high"></span>
                 High activity
               </div>
+
               <div>
                 <span className="legend-dot medium"></span>
                 Moderate
               </div>
+
               <div>
                 <span className="legend-dot low"></span>
                 Low
               </div>
+
             </div>
+
           </div>
+
         </div>
 
-        {/* AI Insight */}
+
+        {/* AI INSIGHT */}
+
         <div className="panel insight-panel">
+
           <div className="panel-header">
-            <div>
-              <h3>AI Insight</h3>
-              <p>Latest pattern detection</p>
-            </div>
-
-            <span className="ai-badge">✦ AI</span>
-          </div>
-
-          <div className="insight-box">
-            <div className="insight-icon">!</div>
 
             <div>
-              <strong>Unusual activity detected</strong>
+
+              <h3>
+                AI Insight
+              </h3>
 
               <p>
-                A cluster of fever-related reports in the Kavoor area is
-                above the recent baseline.
+                Latest pattern detection
               </p>
+
             </div>
+
+            <span className="ai-badge">
+              ✦ AI
+            </span>
+
           </div>
 
-          <div className="confidence">
-            <div>
-              <span>Investigation priority</span>
-              <strong>High</strong>
+
+          <div className="insight-box">
+
+            <div className="insight-icon">
+              !
             </div>
+
+            <div>
+
+              <strong>
+                Unusual activity detected
+              </strong>
+
+              <p>
+                A cluster of fever-related reports
+                in the Kavoor area is above the
+                recent baseline.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div className="confidence">
+
+            <div>
+
+              <span>
+                Investigation priority
+              </span>
+
+              <strong>
+                High
+              </strong>
+
+            </div>
+
 
             <div className="progress">
               <div></div>
             </div>
 
-            <small>Pattern confidence: 87%</small>
+
+            <small>
+              Pattern confidence: 87%
+            </small>
+
           </div>
 
-          <button className="analysis-button">
+
+          <button
+            className="analysis-button"
+            onClick={() => setActivePage("analysis")}
+          >
             Why was this flagged? →
           </button>
+
         </div>
+
       </section>
 
-      {/* Reports + Alerts */}
+
+      {/* ================= REPORTS + ALERTS ================= */}
+
       <section className="bottom-grid">
+
+        {/* RECENT REPORTS */}
+
         <div className="panel">
+
           <div className="panel-header">
+
             <div>
-              <h3>Recent Reports</h3>
-              <p>Latest community submissions</p>
+
+              <h3>
+                Recent Reports
+              </h3>
+
+              <p>
+                Latest community submissions
+              </p>
+
             </div>
 
-            <button className="text-button">View all →</button>
+            <button
+              className="text-button"
+              onClick={() => setActivePage("reports")}
+            >
+              View all →
+            </button>
+
           </div>
 
+
           <div className="reports-list">
+
             {reports.map((report, index) => (
-              <div className="report-row" key={index}>
+
+              <div
+                className="report-row"
+                key={index}
+              >
+
                 <div className="report-location">
-                  <div className={`report-marker marker-${report.severity.toLowerCase()}`}>
+
+                  <div
+                    className={`report-marker marker-${report.severity.toLowerCase()}`}
+                  >
                     ●
                   </div>
 
+
                   <div>
-                    <strong>{report.location}</strong>
-                    <span>{report.category}</span>
+
+                    <strong>
+                      {report.location}
+                    </strong>
+
+                    <span>
+                      {report.category}
+                    </span>
+
                   </div>
+
                 </div>
 
+
                 <div className="report-people">
-                  <strong>{report.people}</strong>
-                  <span>people</span>
+
+                  <strong>
+                    {report.people}
+                  </strong>
+
+                  <span>
+                    people
+                  </span>
+
                 </div>
+
 
                 <div
                   className={`severity ${report.severity.toLowerCase()}`}
@@ -333,23 +596,47 @@ function Dashboard() {
                   {report.severity}
                 </div>
 
-                <div className="report-time">{report.time}</div>
+
+                <div className="report-time">
+                  {report.time}
+                </div>
+
               </div>
+
             ))}
+
           </div>
+
         </div>
 
+
+        {/* ALERTS */}
+
         <div className="panel">
+
           <div className="panel-header">
+
             <div>
-              <h3>Priority Alerts</h3>
-              <p>Requires investigation</p>
+
+              <h3>
+                Priority Alerts
+              </h3>
+
+              <p>
+                Requires investigation
+              </p>
+
             </div>
 
-            <span className="alert-count">4</span>
+            <span className="alert-count">
+              4
+            </span>
+
           </div>
 
+
           <div className="alert-list">
+
             <Alert
               title="Fever cluster"
               location="Kavoor"
@@ -370,62 +657,183 @@ function Dashboard() {
               time="2 hrs ago"
               level="Low"
             />
+
           </div>
+
         </div>
+
       </section>
+
     </div>
+
   );
 }
 
-function StatCard({ title, value, change, description, icon, type }) {
+
+/* =========================================================
+   STAT CARD
+========================================================= */
+
+function StatCard({
+  title,
+  value,
+  change,
+  description,
+  icon,
+  type,
+}) {
+
   return (
+
     <div className="stat-card">
-      <div className={`stat-icon ${type}`}>{icon}</div>
+
+      <div
+        className={`stat-icon ${type}`}
+      >
+        {icon}
+      </div>
+
 
       <div className="stat-content">
-        <span>{title}</span>
-        <strong>{value}</strong>
+
+        <span>
+          {title}
+        </span>
+
+        <strong>
+          {value}
+        </strong>
+
 
         <div>
-          <b className={type}>{change}</b>
-          <small>{description}</small>
+
+          <b className={type}>
+            {change}
+          </b>
+
+          <small>
+            {description}
+          </small>
+
         </div>
+
       </div>
+
     </div>
+
   );
 }
 
-function Alert({ title, location, time, level }) {
+
+/* =========================================================
+   ALERT COMPONENT
+========================================================= */
+
+function Alert({
+  title,
+  location,
+  time,
+  level,
+}) {
+
   return (
+
     <div className="alert-item">
-      <div className={`alert-icon ${level.toLowerCase()}`}>!</div>
+
+      <div
+        className={`alert-icon ${level.toLowerCase()}`}
+      >
+        !
+      </div>
+
 
       <div className="alert-info">
-        <strong>{title}</strong>
+
+        <strong>
+          {title}
+        </strong>
+
         <span>
           {location} • {time}
         </span>
+
       </div>
 
-      <span className={`alert-level ${level.toLowerCase()}`}>
+
+      <span
+        className={`alert-level ${level.toLowerCase()}`}
+      >
         {level}
       </span>
+
     </div>
+
   );
 }
 
-function PlaceholderPage({ title, description, icon }) {
+
+/* =========================================================
+   AI ANALYSIS PAGE
+========================================================= */
+
+function AIAnalysisPage() {
+
   return (
+
     <div className="placeholder-page">
-      <div className="placeholder-icon">{icon}</div>
-      <h3>{title}</h3>
-      <p>{description}</p>
+
+      <div className="placeholder-icon">
+        ✦
+      </div>
+
+      <h3>
+        AI Analysis
+      </h3>
+
+      <p>
+        Pattern detection and investigation reasoning.
+      </p>
 
       <div className="coming-soon">
-        This module will be built next.
+        AI Analysis module will be built next.
       </div>
+
     </div>
+
   );
 }
+
+
+/* =========================================================
+   ALERTS PAGE
+========================================================= */
+
+function AlertsPage() {
+
+  return (
+
+    <div className="placeholder-page">
+
+      <div className="placeholder-icon">
+        ⚠
+      </div>
+
+      <h3>
+        Authority Alerts
+      </h3>
+
+      <p>
+        Monitor investigation priorities and alerts.
+      </p>
+
+      <div className="coming-soon">
+        Authority dashboard will be built next.
+      </div>
+
+    </div>
+
+  );
+}
+
 
 export default App;
